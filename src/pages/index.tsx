@@ -3,6 +3,7 @@ import { trpc } from '@/utils/trpc';
 import Sidebar, { initialValues } from '@/components/sidebar';
 import Layout from '@/components/layout';
 import Head from 'next/head';
+import { countryCodeLookup } from '@/utils/nationality';
 
 export default function IndexPage() {
   const [page, setPage] = useState(1);
@@ -17,11 +18,19 @@ export default function IndexPage() {
   }
 
   if (redNotice.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Layout>
+        <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">Loading...</div>
+      </Layout>
+    );
   }
 
   if (redNotice.isError) {
-    return <div>{redNotice.error.message}</div>;
+    return (
+      <Layout>
+        <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">{redNotice.error.message}</div>
+      </Layout>
+    );
   }
 
   return (
@@ -45,7 +54,7 @@ export default function IndexPage() {
                 <div className="my-4 w-2/5">
                   <p className="text-base text-sky-700 font-extrabold">{notice.name} {notice.forename}</p>
                   <p className="text-sm text-gray-700 font-semibold">{new Date().getFullYear() - new Date(notice.date_of_birth).getFullYear()} years old</p>
-                  <p className="text-sm text-gray-700 font-semibold">{notice.nationalities}</p>
+                  <p className="text-sm text-gray-700 font-semibold">{countryCodeLookup[notice.nationalities?.[0]]}</p>
                 </div>
               </div>
             ))}

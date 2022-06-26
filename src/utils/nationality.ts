@@ -202,6 +202,11 @@ const nationality: { value: string, label: string }[] = [
   { value: "YE", label: ' Yemen ' },
   { value: "ZM", label: 'Zambia' },
   { value: "ZW", label: ' Zimbabwe ' },
-]
+];
+
+export const countryCodeLookup: Record<string, string> = nationality.reduce((acc, curr) => ({
+  ...acc,
+  [curr.value]: curr.label,
+}), {});
 
 export default nationality;

@@ -17,10 +17,12 @@ export const initialValues = {
 
 type SidebarProps = {
   onFormSubmit: (values: typeof initialValues) => void,
+  showWantedBy?: boolean,
 }
 
 function Sidebar({
   onFormSubmit,
+  showWantedBy = true,
 }: SidebarProps) {
   const [values, setValues] = useState(initialValues);
 
@@ -92,13 +94,15 @@ function Sidebar({
             max={100}
             value={values.ageMax}
           />
-          <Select
-            name="arrestWarrantCountryId"
-            label="Wanted By"
-            onChange={onChange}
-            value={values.arrestWarrantCountryId}
-            options={nationality}
-          />
+          {showWantedBy && (
+            <Select
+              name="arrestWarrantCountryId"
+              label="Wanted By"
+              onChange={onChange}
+              value={values.arrestWarrantCountryId}
+              options={nationality}
+            />
+          )}
           <Input
             type="text"
             label="Keywords"

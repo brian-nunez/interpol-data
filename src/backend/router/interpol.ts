@@ -1,4 +1,3 @@
-import nationality from '@/utils/nationality';
 import * as trpc from '@trpc/server';
 import axios from 'axios';
 import { z } from 'zod';
@@ -47,10 +46,11 @@ type InterpolResponse = {
 };
 
 export default createRouter()
-  .query('.red', {
+  .query('red', {
     input: z
       .object({
         page: z.number().default(1),
+        resultsByPage: z.number().default(8),
         searchParams: z.object({
           name: z.string().optional(),
           forename: z.string().optional(),
@@ -66,7 +66,7 @@ export default createRouter()
       const params = Object.fromEntries(Object.entries(input.searchParams)
         .filter(([key, value]) => !!value));
       const query = new URLSearchParams(params);
-      const url = `https://ws-public.interpol.int/notices/v1/red?resultPerPage=8&page=${input?.page}&${query}`;
+      const url = `https://ws-public.interpol.int/notices/v1/red?resultPerPage=${input.resultsByPage}&page=${input?.page}&${query}`;
       try {
         const response = await axios.get(url);
         return response.data as InterpolResponse;
@@ -78,10 +78,11 @@ export default createRouter()
       }
     },
   })
-  .query('.yellow', {
+  .query('yellow', {
     input: z
       .object({
         page: z.number().default(1),
+        resultsByPage: z.number().default(8),
         searchParams: z.object({
           name: z.string().optional(),
           forename: z.string().optional(),
@@ -96,7 +97,7 @@ export default createRouter()
       const params = Object.fromEntries(Object.entries(input.searchParams)
         .filter(([key, value]) => !!value));
       const query = new URLSearchParams(params);
-      const url = `https://ws-public.interpol.int/notices/v1/yellow?resultPerPage=5&page=${input?.page}&${query}`;
+      const url = `https://ws-public.interpol.int/notices/v1/yellow?resultPerPage=${input.resultsByPage}&page=${input?.page}&${query}`;
       try {
         const response = await axios.get(url);
         return response.data as InterpolResponse;

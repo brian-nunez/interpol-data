@@ -1,10 +1,17 @@
 import { withTRPC } from '@trpc/next';
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { AppType } from 'next/dist/shared/lib/utils';
 import { AppRouter } from '@/backend/router';
 import '@/styles/globals.css';
+import React from 'react';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  return (
+    <React.Fragment>
+      <Component {...pageProps} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </React.Fragment>
+  );
 };
 
 function getBaseUrl() {
@@ -15,7 +22,7 @@ function getBaseUrl() {
 }
 
 export default withTRPC<AppRouter>({
-  config({ ctx }) {
+  config() {
     const url = `${getBaseUrl()}/api/trpc`;
 
     return {

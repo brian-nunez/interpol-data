@@ -8,7 +8,12 @@ import { countryCodeLookup } from '@/utils/nationality';
 export default function IndexPage() {
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useState(initialValues);
-  const redNotice = trpc.useQuery(['interpol.red', { page, searchParams }], {
+  const {
+    isLoading,
+    isError,
+    data: yellowNotices,
+    error,
+  } = trpc.useQuery(['interpol.yellow', { page, searchParams }], {
     keepPreviousData: true,
   });
 
@@ -17,7 +22,7 @@ export default function IndexPage() {
     setSearchParams(values);
   }
 
-  if (redNotice.isLoading) {
+  if (isLoading) {
     return (
       <Layout>
         <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">Loading...</div>
@@ -25,10 +30,10 @@ export default function IndexPage() {
     );
   }
 
-  if (redNotice.isError) {
+  if (isError) {
     return (
       <Layout>
-        <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">{redNotice.error.message}</div>
+        <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">{error.message}</div>
       </Layout>
     );
   }
@@ -41,11 +46,12 @@ export default function IndexPage() {
       <div className="container mx-auto grid grid-cols-12 gap-4">
         <Sidebar
           onFormSubmit={onFormSubmit}
+          showWantedBy={false}
         />
         <div className="col-span-9 my-4">
-          <h1 className="text-2xl text-gray-800 mb-2">Total number of public Red Notices in circulation: <span className="text-gray-800 font-bold">{redNotice.data?.total}</span></h1>
+          <h1 className="text-2xl text-gray-800 mb-2">Total number of public Yellow Notices in circulation: <span className="text-gray-800 font-bold">{yellowNotices?.total}</span></h1>
           <div className="grid grid-cols-4">
-            {redNotice.data?._embedded.notices.map((notice) => (
+            {yellowNotices?._embedded.notices.map((notice) => (
               <div key={notice.entity_id} className="flex flex-col justify-items-center w-full items-center">
                 <img
                   className="w-6/12"
@@ -67,7 +73,7 @@ export default function IndexPage() {
               }
               setPage(p => p - 1);
             }}
-            disabled={redNotice.data?._links.self?.href === redNotice.data?._links.first?.href}
+            disabled={yellowNotices?._links.self?.href === yellowNotices?._links.first?.href}
           >
             Previous
           </button>
@@ -76,7 +82,7 @@ export default function IndexPage() {
             onClick={() => {
               setPage(p => p + 1);
             }}
-            disabled={redNotice.data?._links.self?.href === redNotice.data?._links.last?.href}
+            disabled={yellowNotices?._links.self?.href === yellowNotices?._links.last?.href}
           >
             Next
           </button>

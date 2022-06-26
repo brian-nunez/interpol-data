@@ -25,7 +25,7 @@ function Layout({ children }: LayoutProps) {
                   <Link href="/">
                     <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Red Notice</a>
                   </Link>
-                  <Link href="/yellow">
+                  <Link href="/notices/yellow">
                     <a className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Yellow Notice</a>
                   </Link>
                 </div>
@@ -39,7 +39,7 @@ function Layout({ children }: LayoutProps) {
             <Link href="/">
               <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Red Notice</a>
             </Link>
-            <Link href="/yellow">
+            <Link href="/notices/yellow">
               <a className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Yellow Notice</a>
             </Link>
           </div>

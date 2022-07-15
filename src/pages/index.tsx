@@ -17,7 +17,7 @@ export default function IndexPage() {
     setSearchParams(values);
   }
 
-  if (redNotice.isLoading) {
+  if (redNotice.isLoading || redNotice.isFetching) {
     return (
       <Layout>
         <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">Loading...</div>

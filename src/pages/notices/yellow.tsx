@@ -10,6 +10,7 @@ export default function IndexPage() {
   const [searchParams, setSearchParams] = useState(initialValues);
   const {
     isLoading,
+    isFetching,
     isError,
     data: yellowNotices,
     error,
@@ -22,7 +23,7 @@ export default function IndexPage() {
     setSearchParams(values);
   }
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <Layout>
         <div className="container mx-auto mt-10 w-full text-center font-bold text-8xl">Loading...</div>
